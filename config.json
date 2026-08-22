@@ -1,5 +1,17 @@
 {
-  "feedUrl": "https://www.cheapies.nz/feed",
   "pollIntervalSeconds": 120,
-  "categoryFilter": []
+  "routes": [
+    {
+      "name": "all-deals",
+      "feedUrl": "https://www.cheapies.nz/feed",
+      "webhookEnv": "DISCORD_WEBHOOK_URL",
+      "categoryFilter": []
+    },
+    {
+      "name": "jb-hi-fi",
+      "feedUrl": "https://www.cheapies.nz/deals/jbhifi.co.nz/feed",
+      "webhookEnv": "DISCORD_WEBHOOK_URL_JBHIFI",
+      "categoryFilter": []
+    }
+  ]
 }

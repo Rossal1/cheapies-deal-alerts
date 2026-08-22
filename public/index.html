@@ -96,6 +96,7 @@ function dealCard(d, showDetected) {
       ${d.votesPos != null ? `&#9650; ${d.votesPos}` : ''}
       ${d.commentCount != null ? `${d.commentCount} comments` : ''}
       ${showDetected ? fmtTime(d.detectedAt) : fmtTime(d.pubDate)}
+      ${d.route ? `<span class="tag">${d.route}</span>` : ''}
       ${cats}
     </div>
   `;
