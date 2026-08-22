@@ -32,6 +32,7 @@ async function fetchDeals(feedUrl) {
         link: item.link,
         pubDate: item.pubDate,
         creator: item['dc:creator'],
+        sourceLabel: 'cheapies.nz',
         categories,
         commentCount: meta['@_comment-count'] != null ? Number(meta['@_comment-count']) : null,
         votesPos: meta['@_votes-pos'] != null ? Number(meta['@_votes-pos']) : null,

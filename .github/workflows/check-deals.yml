@@ -28,6 +28,7 @@ jobs:
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           DISCORD_WEBHOOK_URL_JBHIFI: ${{ secrets.DISCORD_WEBHOOK_URL_JBHIFI }}
+          DISCORD_WEBHOOK_URL_DELTA_REIGN: ${{ secrets.DISCORD_WEBHOOK_URL_DELTA_REIGN }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"

@@ -3,15 +3,24 @@
   "routes": [
     {
       "name": "all-deals",
+      "type": "rss",
       "feedUrl": "https://www.cheapies.nz/feed",
       "webhookEnv": "DISCORD_WEBHOOK_URL",
       "categoryFilter": []
     },
     {
       "name": "jb-hi-fi",
+      "type": "rss",
       "feedUrl": "https://www.cheapies.nz/deals/jbhifi.co.nz/feed",
       "webhookEnv": "DISCORD_WEBHOOK_URL_JBHIFI",
       "categoryFilter": []
+    },
+    {
+      "name": "delta-reign",
+      "type": "shopify-collection",
+      "domain": "jbhifi.co.nz",
+      "searchQuery": "delta reign",
+      "webhookEnv": "DISCORD_WEBHOOK_URL_DELTA_REIGN"
     }
   ]
 }

@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
-const { fetchDeals } = require('./poller');
+const { pollRoute } = require('./routes');
 const { notifyDeal } = require('./notifier');
 
 const config = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'config.json'), 'utf8'));
@@ -31,43 +31,22 @@ function saveState() {
   fs.writeFileSync(STATE_PATH, JSON.stringify(state, null, 2));
 }
 
-function matchesFilter(deal, categoryFilter) {
-  if (!categoryFilter || categoryFilter.length === 0) return true;
-  return deal.categories.some((c) => categoryFilter.includes(c));
-}
-
-async function pollRoute(route) {
-  const isFirstRunEver = !state[route.name];
-  const seenIds = new Set(state[route.name]?.seenIds || []);
-
-  const deals = await fetchDeals(route.feedUrl);
-  const newDeals = deals.filter((d) => !seenIds.has(d.id));
-  for (const deal of deals) seenIds.add(deal.id);
-
-  latestDeals = latestDeals
-    .filter((d) => d.route !== route.name)
-    .concat(deals.map((d) => ({ ...d, route: route.name })));
-
-  if (!isFirstRunEver) {
-    for (const deal of newDeals) {
-      if (matchesFilter(deal, route.categoryFilter)) {
-        const event = { ...deal, route: route.name, detectedAt: new Date().toISOString() };
-        events.unshift(event);
-        events = events.slice(0, 100);
-        notifyDeal(deal);
-      }
-    }
-  }
-
-  state[route.name] = { seenIds: Array.from(seenIds) };
-}
-
 async function pollOnce() {
   if (polling) return;
   polling = true;
   try {
     for (const route of config.routes) {
-      await pollRoute(route);
+      const result = await pollRoute(route, state);
+
+      const displayItems = (result.allItems || []).map((d) => ({ ...d, route: route.name }));
+      latestDeals = latestDeals.filter((d) => d.route !== route.name).concat(displayItems);
+
+      for (const deal of result.newItems) {
+        const event = { ...deal, route: route.name, detectedAt: new Date().toISOString() };
+        events.unshift(event);
+        events = events.slice(0, 100);
+        notifyDeal(deal);
+      }
     }
     lastError = null;
     saveState();
@@ -90,7 +69,7 @@ app.get('/api/status', (req, res) => {
     lastPollAt,
     lastError,
     pollIntervalSeconds: config.pollIntervalSeconds,
-    routes: config.routes.map((r) => ({ name: r.name, categoryFilter: r.categoryFilter })),
+    routes: config.routes.map((r) => ({ name: r.name, type: r.type })),
   });
 });
 
