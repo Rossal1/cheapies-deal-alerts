@@ -21,6 +21,13 @@
       "domain": "jbhifi.co.nz",
       "searchQuery": "delta reign",
       "webhookEnv": "DISCORD_WEBHOOK_URL_DELTA_REIGN"
+    },
+    {
+      "name": "30th-celebration",
+      "type": "shopify-collection",
+      "domain": "jbhifi.co.nz",
+      "searchQuery": "30th celebration",
+      "webhookEnv": "DISCORD_WEBHOOK_URL_30TH_CELEBRATION"
     }
   ]
 }
