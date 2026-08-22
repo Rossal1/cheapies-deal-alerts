@@ -1,0 +1,5 @@
+{
+  "feedUrl": "https://www.cheapies.nz/feed",
+  "pollIntervalSeconds": 120,
+  "categoryFilter": []
+}

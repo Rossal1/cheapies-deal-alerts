@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Cheapies Deal Alerts</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root {
+    --bg: #0f1115;
+    --panel: #171a21;
+    --border: #262b36;
+    --text: #e6e8ee;
+    --muted: #8b93a3;
+    --green: #3ecf6a;
+    --accent: #f2c94c;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    padding: 24px;
+  }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  .sub { color: var(--muted); font-size: 13px; margin-bottom: 20px; }
+  .layout { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; align-items: start; }
+  @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .panel h2 { font-size: 14px; margin: 0 0 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+  .deal { padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .deal:last-child { border-bottom: none; }
+  .deal .title { font-weight: 600; font-size: 13px; line-height: 1.4; }
+  .deal .meta { color: var(--muted); font-size: 11px; margin-top: 4px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .tag { background: rgba(242,201,76,0.12); color: var(--accent); padding: 1px 7px; border-radius: 999px; font-size: 10px; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .empty { color: var(--muted); font-size: 13px; padding: 8px 0; }
+  #banner {
+    display: none;
+    background: rgba(62,207,106,0.12);
+    border: 1px solid var(--green);
+    color: var(--green);
+    padding: 10px 14px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-size: 13px;
+  }
+  button {
+    background: var(--panel); color: var(--text); border: 1px solid var(--border);
+    border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer;
+  }
+  button:hover { border-color: var(--accent); }
+</style>
+</head>
+<body>
+  <h1>Cheapies Deal Alerts</h1>
+  <div class="sub" id="statusLine">Loading...</div>
+  <div id="banner"></div>
+
+  <div class="layout">
+    <div class="panel">
+      <h2>Latest deals</h2>
+      <div id="deals"></div>
+      <div id="dealsEmpty" class="empty" style="display:none;">No deals seen yet - waiting on first poll.</div>
+    </div>
+    <div class="panel">
+      <h2>New since you opened this <button id="pollNow" style="float:right;">Poll now</button></h2>
+      <div id="events"></div>
+      <div id="eventsEmpty" class="empty">No new deals detected yet.</div>
+    </div>
+  </div>
+
+<script>
+let notifyPermissionAsked = false;
+let seenEventKeys = new Set();
+
+function fmtTime(iso) {
+  if (!iso) return '-';
+  return new Date(iso).toLocaleString();
+}
+
+function dealCard(d, showDetected) {
+  const div = document.createElement('div');
+  div.className = 'deal';
+  const cats = (d.categories || []).slice(0, 3).map((c) => `<span class="tag">${c}</span>`).join(' ');
+  div.innerHTML = `
+    <div class="title"><a href="${d.link}" target="_blank" rel="noopener">${d.title}</a></div>
+    <div class="meta">
+      ${d.creator ? `by ${d.creator}` : ''}
+      ${d.votesPos != null ? `&#9650; ${d.votesPos}` : ''}
+      ${d.commentCount != null ? `${d.commentCount} comments` : ''}
+      ${showDetected ? fmtTime(d.detectedAt) : fmtTime(d.pubDate)}
+      ${cats}
+    </div>
+  `;
+  return div;
+}
+
+function render(data) {
+  const statusLine = document.getElementById('statusLine');
+  statusLine.textContent = `Polling every ${data.pollIntervalSeconds}s - last check ${fmtTime(data.lastPollAt)}` +
+    (data.lastError ? ` - error: ${data.lastError}` : '');
+
+  const deals = document.getElementById('deals');
+  const dealsEmpty = document.getElementById('dealsEmpty');
+  deals.innerHTML = '';
+  if (!data.deals.length) {
+    dealsEmpty.style.display = 'block';
+  } else {
+    dealsEmpty.style.display = 'none';
+    for (const d of data.deals.slice(0, 30)) {
+      deals.appendChild(dealCard(d, false));
+    }
+  }
+
+  const eventsEl = document.getElementById('events');
+  const eventsEmpty = document.getElementById('eventsEmpty');
+  eventsEl.innerHTML = '';
+  if (!data.events.length) {
+    eventsEmpty.style.display = 'block';
+  } else {
+    eventsEmpty.style.display = 'none';
+    for (const e of data.events) {
+      eventsEl.appendChild(dealCard(e, true));
+      const key = e.id + e.detectedAt;
+      if (!seenEventKeys.has(key)) {
+        seenEventKeys.add(key);
+        maybeBrowserNotify(e);
+        showBanner(e);
+      }
+    }
+  }
+}
+
+function showBanner(e) {
+  const banner = document.getElementById('banner');
+  banner.style.display = 'block';
+  banner.innerHTML = `New deal: <a href="${e.link}" target="_blank" rel="noopener">${e.title}</a>`;
+  setTimeout(() => { banner.style.display = 'none'; }, 15000);
+}
+
+function maybeBrowserNotify(e) {
+  if (!('Notification' in window)) return;
+  if (Notification.permission === 'granted') {
+    const n = new Notification('New deal on cheapies.nz', { body: e.title });
+    n.onclick = () => { window.open(e.link, '_blank'); n.close(); };
+  } else if (Notification.permission !== 'denied' && !notifyPermissionAsked) {
+    notifyPermissionAsked = true;
+    Notification.requestPermission();
+  }
+}
+
+async function refresh() {
+  try {
+    const res = await fetch('/api/status');
+    const data = await res.json();
+    render(data);
+  } catch (e) {
+    document.getElementById('statusLine').textContent = 'Failed to reach local server.';
+  }
+}
+
+document.getElementById('pollNow').addEventListener('click', async () => {
+  await fetch('/api/poll-now', { method: 'POST' });
+  refresh();
+});
+
+refresh();
+setInterval(refresh, 5000);
+</script>
+</body>
+</html>
