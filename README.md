@@ -5,7 +5,7 @@ Watches [cheapies.nz](https://www.cheapies.nz)'s official RSS feed (`/feed`) for
 Two ways to run it:
 
 - **Local dashboard** (`npm start`): runs a small web dashboard at `http://localhost:4174` and fires a native desktop notification when a new deal appears. Only runs while your machine is on.
-- **GitHub Actions** (`.github/workflows/check-deals.yml`): runs on a schedule (every 5 minutes, GitHub's minimum interval) even when your machine is off, and posts new deals to a Discord channel via webhook.
+- **GitHub Actions** (`.github/workflows/check-deals.yml`): a scheduled run kicks off every 5 minutes (GitHub's minimum interval for the *trigger*), but each run then loops internally, re-checking the feed every 20 seconds for ~4.5 minutes before handing off to the next scheduled run - so the effective latency is ~20-30s, not 5 minutes. Runs even when your machine is off, and posts new deals to a Discord channel via webhook.
 
 ## GitHub Actions setup
 

@@ -24,14 +24,19 @@ jobs:
 
       - run: npm ci
 
-      - run: node src/check-and-post.js
+      - name: Poll every 20s for ~4.5 minutes, then hand off to the next scheduled run
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-
-      - name: Commit updated state
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/state.json
-          git diff --cached --quiet || git commit -m "Update seen-deals state"
-          git push
+          END=$((SECONDS + 270))
+          while [ $SECONDS -lt $END ]; do
+            node src/check-and-post.js
+            if ! git diff --quiet -- data/state.json; then
+              git add data/state.json
+              git commit -m "Update seen-deals state"
+              git push
+            fi
+            sleep 20
+          done
