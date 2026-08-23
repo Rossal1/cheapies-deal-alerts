@@ -33,5 +33,36 @@
   "30th-celebration": {
     "collectionHandle": null,
     "variants": {}
+  },
+  "jb-hi-fi-pokemon-stock": {
+    "variants": {
+      "40429151944905": {
+        "available": true
+      },
+      "40428051431625": {
+        "available": true
+      },
+      "40427754979529": {
+        "available": true
+      }
+    },
+    "lastScanAt": "2026-08-23T04:26:16.444Z"
+  },
+  "toyworld-pokemon-stock": {
+    "variants": {
+      "42053198807179": {
+        "available": true
+      },
+      "42053198708875": {
+        "available": true
+      },
+      "42053198610571": {
+        "available": true
+      },
+      "42053198676107": {
+        "available": true
+      }
+    },
+    "lastScanAt": "2026-08-23T04:26:58.958Z"
   }
 }
