@@ -44,6 +44,12 @@
       "sourceLabel": "Toyworld",
       "scanIntervalMinutes": 30,
       "webhookEnv": "DISCORD_WEBHOOK_URL_SHOPIFY_ALERTS"
+    },
+    {
+      "name": "upcoming-tcg-sets",
+      "type": "tcg-set-watch",
+      "checkIntervalMinutes": 360,
+      "webhookEnv": "DISCORD_WEBHOOK_URL_UPCOMING_RELEASES"
     }
   ]
 }

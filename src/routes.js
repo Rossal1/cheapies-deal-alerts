@@ -1,5 +1,6 @@
 const { fetchDeals } = require('./poller');
 const { searchCollection, fetchCollectionProducts, fetchCatalogProducts } = require('./shopify');
+const { fetchKnownSets } = require('./bulbapedia');
 
 function matchesFilter(deal, categoryFilter) {
   if (!categoryFilter || categoryFilter.length === 0) return true;
@@ -106,12 +107,56 @@ async function pollShopifyCatalogScanRoute(route, state) {
   return { justDiscovered: false, allItems: items, newItems: newlyAvailable };
 }
 
+// Watches Bulbapedia's expansion list for newly-added Pokemon TCG sets -
+// self-throttled to checkIntervalMinutes since new sets are announced maybe
+// every couple of months, not something worth checking every loop cycle.
+async function pollTcgSetWatchRoute(route, state) {
+  const prior = state[route.name] || { knownNames: [], lastCheckAt: null };
+  const intervalMs = (route.checkIntervalMinutes || 360) * 60 * 1000;
+
+  if (prior.lastCheckAt && Date.now() - new Date(prior.lastCheckAt).getTime() < intervalMs) {
+    return { justDiscovered: false, allItems: [], newItems: [], skipped: true };
+  }
+
+  const isFirstRunEver = !state[route.name];
+  const known = new Set(prior.knownNames);
+  const sets = await fetchKnownSets();
+  const newSets = sets.filter((s) => !known.has(s.name));
+  for (const s of sets) known.add(s.name);
+
+  prior.knownNames = Array.from(known);
+  prior.lastCheckAt = new Date().toISOString();
+  state[route.name] = prior;
+
+  return {
+    justDiscovered: false,
+    allItems: sets,
+    newItems: isFirstRunEver
+      ? []
+      : newSets.map((s) => ({
+          id: s.name,
+          title: `New Pokemon TCG set announced: ${s.name}${s.date ? ` - ${s.date}` : ''}`,
+          link: 'https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions',
+          image: null,
+          sourceLabel: 'Bulbapedia',
+          categories: [],
+          votesPos: null,
+          commentCount: null,
+          creator: null,
+          pubDate: null,
+        })),
+  };
+}
+
 async function pollRoute(route, state) {
   if (route.type === 'shopify-collection') {
     return pollShopifyCollectionRoute(route, state);
   }
   if (route.type === 'shopify-catalog-scan') {
     return pollShopifyCatalogScanRoute(route, state);
+  }
+  if (route.type === 'tcg-set-watch') {
+    return pollTcgSetWatchRoute(route, state);
   }
   return pollRssRoute(route, state);
 }

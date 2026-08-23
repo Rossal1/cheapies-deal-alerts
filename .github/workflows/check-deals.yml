@@ -31,6 +31,7 @@ jobs:
           DISCORD_WEBHOOK_URL_DELTA_REIGN: ${{ secrets.DISCORD_WEBHOOK_URL_DELTA_REIGN }}
           DISCORD_WEBHOOK_URL_30TH_CELEBRATION: ${{ secrets.DISCORD_WEBHOOK_URL_30TH_CELEBRATION }}
           DISCORD_WEBHOOK_URL_SHOPIFY_ALERTS: ${{ secrets.DISCORD_WEBHOOK_URL_SHOPIFY_ALERTS }}
+          DISCORD_WEBHOOK_URL_UPCOMING_RELEASES: ${{ secrets.DISCORD_WEBHOOK_URL_UPCOMING_RELEASES }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"

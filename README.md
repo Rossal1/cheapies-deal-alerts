@@ -58,7 +58,22 @@ Each entry in `config.json`'s `routes` array is one source → one Discord chann
 - It's pagination-heavy (JB Hi-Fi's catalog is 100+ pages), so it self-throttles to `scanIntervalMinutes` (default 30) regardless of how often the workflow runs - most invocations just check the clock and skip instantly.
 - **Known limitation**: Shopify's legacy `/products.json` endpoint hard-caps pagination around page 100 (~25,000 products) and returns an error beyond that, which this code treats as "reached the edge of what's reachable" rather than a failure. For a catalog that size, this isn't provably complete coverage - a product could in principle sort beyond page 100 and be missed. In testing it did find every known current Pokemon TCG product at JB Hi-Fi, which is a reasonable but not ironclad signal.
 
-All three route types share the same webhook/embed posting and the same GitHub Actions run loop.
+**`tcg-set-watch`** - watches [Bulbapedia's Pokemon TCG expansion list](https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions) (fetched via MediaWiki's public API, not scraped) for newly-added sets - this is how new sets get caught the moment they're *officially announced*, well before any retailer lists them:
+
+```json
+{
+  "name": "upcoming-tcg-sets",
+  "type": "tcg-set-watch",
+  "checkIntervalMinutes": 360,
+  "webhookEnv": "DISCORD_WEBHOOK_URL_UPCOMING_RELEASES"
+}
+```
+
+- Self-throttles to `checkIntervalMinutes` (default 360 = 6 hours) - new sets are announced maybe every couple of months, so there's no reason to check more often.
+- On first run it baselines every set already on the page (currently ~180, spanning the game's whole history back to 1998) without posting anything; from then on, only a genuinely new entry triggers a post.
+- Once a set shows up here, add a `shopify-collection` route for it (same pattern as `delta-reign`/`30th-celebration`) to start watching for it to actually go on sale.
+
+All four route types share the same webhook/embed posting and the same GitHub Actions run loop.
 
 **Important caveat**: this only covers retailers whose sites don't actively block automated requests. The Warehouse, Kmart NZ, Mighty Ape, and EB Games NZ all run enterprise bot-detection (Cloudflare / Akamai / DataDome) that blocks automated requests outright - there's no route type here for them, and building one would mean deliberately evading a security control, which this project intentionally doesn't do. JB Hi-Fi and Toyworld work because Shopify's storefront JSON is public by design - nothing to get past.
 
