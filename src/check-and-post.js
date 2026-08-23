@@ -32,6 +32,11 @@ async function main() {
     try {
       const result = await pollRoute(route, state);
 
+      if (result.skipped) {
+        console.log(`[${route.name}] throttled - not due for a scan yet.`);
+        continue;
+      }
+
       if (result.justDiscovered) {
         console.log(`[${route.name}] Collection discovered: ${result.collectionHandle}`);
         await postAnnouncementToDiscord(

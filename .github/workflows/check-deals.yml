@@ -30,10 +30,11 @@ jobs:
           DISCORD_WEBHOOK_URL_JBHIFI: ${{ secrets.DISCORD_WEBHOOK_URL_JBHIFI }}
           DISCORD_WEBHOOK_URL_DELTA_REIGN: ${{ secrets.DISCORD_WEBHOOK_URL_DELTA_REIGN }}
           DISCORD_WEBHOOK_URL_30TH_CELEBRATION: ${{ secrets.DISCORD_WEBHOOK_URL_30TH_CELEBRATION }}
+          DISCORD_WEBHOOK_URL_SHOPIFY_ALERTS: ${{ secrets.DISCORD_WEBHOOK_URL_SHOPIFY_ALERTS }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          END=$((SECONDS + 270))
+          END=$((SECONDS + 240))
           while [ $SECONDS -lt $END ]; do
             node src/check-and-post.js
             if ! git diff --quiet -- data/state.json; then
