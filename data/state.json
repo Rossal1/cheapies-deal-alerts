@@ -89,7 +89,7 @@
         "available": true
       }
     },
-    "lastScanAt": "2026-08-29T14:29:10.833Z"
+    "lastScanAt": "2026-08-29T17:53:01.362Z"
   },
   "toyworld-pokemon-stock": {
     "variants": {
@@ -106,7 +106,7 @@
         "available": true
       }
     },
-    "lastScanAt": "2026-08-29T14:30:07.122Z"
+    "lastScanAt": "2026-08-29T17:53:44.088Z"
   },
   "upcoming-tcg-sets": {
     "knownNames": [
@@ -294,6 +294,6 @@
       "Pokémon Futsal",
       "Pokémon Trading Card Game Classic"
     ],
-    "lastCheckAt": "2026-08-29T09:08:26.514Z"
+    "lastCheckAt": "2026-08-29T17:53:44.191Z"
   }
 }
