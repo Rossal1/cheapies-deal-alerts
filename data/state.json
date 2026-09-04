@@ -81,7 +81,10 @@
       "56972",
       "56971",
       "56974",
-      "32496"
+      "32496",
+      "56979",
+      "56978",
+      "56977"
     ]
   },
   "delta-reign": {
@@ -116,7 +119,7 @@
         "available": true
       }
     },
-    "lastScanAt": "2026-09-04T00:28:06.229Z"
+    "lastScanAt": "2026-09-04T04:57:05.918Z"
   },
   "toyworld-pokemon-stock": {
     "variants": {
@@ -321,6 +324,6 @@
       "Pokémon Futsal",
       "Pokémon Trading Card Game Classic"
     ],
-    "lastCheckAt": "2026-09-03T20:09:13.865Z"
+    "lastCheckAt": "2026-09-04T04:57:13.187Z"
   }
 }
