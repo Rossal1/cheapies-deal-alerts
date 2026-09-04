@@ -85,7 +85,8 @@
       "56979",
       "56978",
       "56977",
-      "56976"
+      "56976",
+      "56982"
     ]
   },
   "delta-reign": {
@@ -128,7 +129,7 @@
         "available": true
       },
       "42053198708875": {
-        "available": true
+        "available": false
       },
       "42053198610571": {
         "available": true
@@ -137,7 +138,7 @@
         "available": true
       }
     },
-    "lastScanAt": "2026-09-04T00:28:49.545Z"
+    "lastScanAt": "2026-09-04T09:33:57.529Z"
   },
   "upcoming-tcg-sets": {
     "knownNames": [
