@@ -100,7 +100,10 @@
       "57006",
       "57002",
       "57013",
-      "57014"
+      "57014",
+      "57016",
+      "57015",
+      "57012"
     ]
   },
   "delta-reign": {
@@ -135,7 +138,7 @@
         "available": true
       }
     },
-    "lastScanAt": "2026-09-08T01:22:45.158Z"
+    "lastScanAt": "2026-09-08T06:12:49.154Z"
   },
   "toyworld-pokemon-stock": {
     "variants": {
@@ -152,7 +155,7 @@
         "available": true
       }
     },
-    "lastScanAt": "2026-09-08T01:23:34.361Z"
+    "lastScanAt": "2026-09-08T06:13:29.798Z"
   },
   "upcoming-tcg-sets": {
     "knownNames": [
@@ -340,6 +343,6 @@
       "Pokémon Futsal",
       "Pokémon Trading Card Game Classic"
     ],
-    "lastCheckAt": "2026-09-07T21:06:58.588Z"
+    "lastCheckAt": "2026-09-08T06:13:29.926Z"
   }
 }
