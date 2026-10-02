@@ -266,9 +266,15 @@
       },
       "40429200179401": {
         "available": true
+      },
+      "40429703954633": {
+        "available": true
+      },
+      "40429703921865": {
+        "available": true
       }
     },
-    "lastScanAt": "2026-10-01T21:09:42.033Z"
+    "lastScanAt": "2026-10-02T00:47:35.869Z"
   },
   "toyworld-pokemon-stock": {
     "variants": {
@@ -285,7 +291,7 @@
         "available": true
       }
     },
-    "lastScanAt": "2026-10-01T21:07:53.532Z"
+    "lastScanAt": "2026-10-02T00:48:25.536Z"
   },
   "upcoming-tcg-sets": {
     "knownNames": [
