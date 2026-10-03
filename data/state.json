@@ -241,7 +241,8 @@
       "57302",
       "57293",
       "57306",
-      "57310"
+      "57310",
+      "57312"
     ]
   },
   "delta-reign": {
@@ -282,7 +283,7 @@
         "available": true
       }
     },
-    "lastScanAt": "2026-10-03T01:19:27.559Z"
+    "lastScanAt": "2026-10-03T06:40:13.879Z"
   },
   "toyworld-pokemon-stock": {
     "variants": {
@@ -299,7 +300,7 @@
         "available": true
       }
     },
-    "lastScanAt": "2026-10-03T01:20:17.818Z"
+    "lastScanAt": "2026-10-03T06:41:11.803Z"
   },
   "upcoming-tcg-sets": {
     "knownNames": [
