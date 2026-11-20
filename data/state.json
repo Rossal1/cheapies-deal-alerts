@@ -567,7 +567,7 @@
         "available": true
       }
     },
-    "lastScanAt": "2026-11-20T15:21:52.423Z"
+    "lastScanAt": "2026-11-20T22:18:04.266Z"
   },
   "toyworld-pokemon-stock": {
     "variants": {
@@ -584,7 +584,7 @@
         "available": false
       }
     },
-    "lastScanAt": "2026-11-20T15:22:26.048Z"
+    "lastScanAt": "2026-11-20T22:18:36.937Z"
   },
   "upcoming-tcg-sets": {
     "knownNames": [
@@ -776,6 +776,6 @@
       "McDonald's Collection 2026",
       "Southern Islands Collection"
     ],
-    "lastCheckAt": "2026-11-20T15:22:26.186Z"
+    "lastCheckAt": "2026-11-20T22:18:37.074Z"
   }
 }
