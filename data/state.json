@@ -504,7 +504,11 @@
       "57861",
       "57859",
       "57875",
-      "57870"
+      "57870",
+      "57880",
+      "57879",
+      "57877",
+      "57874"
     ]
   },
   "delta-reign": {
@@ -563,7 +567,7 @@
         "available": true
       }
     },
-    "lastScanAt": "2026-11-20T06:04:53.514Z"
+    "lastScanAt": "2026-11-20T15:21:52.423Z"
   },
   "toyworld-pokemon-stock": {
     "variants": {
@@ -580,7 +584,7 @@
         "available": false
       }
     },
-    "lastScanAt": "2026-11-20T06:05:34.779Z"
+    "lastScanAt": "2026-11-20T15:22:26.048Z"
   },
   "upcoming-tcg-sets": {
     "knownNames": [
@@ -766,8 +770,12 @@
       "Poké Card Creator Pack",
       "Pokémon Rumble",
       "Pokémon Futsal",
-      "Pokémon Trading Card Game Classic"
+      "Pokémon Trading Card Game Classic",
+      "Expedition",
+      "Mega Evolution—Flowing Fists",
+      "McDonald's Collection 2026",
+      "Southern Islands Collection"
     ],
-    "lastCheckAt": "2026-09-10T06:35:34.457Z"
+    "lastCheckAt": "2026-11-20T15:22:26.186Z"
   }
 }
