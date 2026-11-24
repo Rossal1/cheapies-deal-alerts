@@ -537,7 +537,8 @@
       "57938",
       "57935",
       "57933",
-      "57930"
+      "57930",
+      "57944"
     ]
   },
   "delta-reign": {
@@ -596,7 +597,7 @@
         "available": true
       }
     },
-    "lastScanAt": "2026-11-24T03:02:49.267Z"
+    "lastScanAt": "2026-11-24T13:34:16.967Z"
   },
   "toyworld-pokemon-stock": {
     "variants": {
@@ -613,7 +614,7 @@
         "available": false
       }
     },
-    "lastScanAt": "2026-11-24T03:03:22.832Z"
+    "lastScanAt": "2026-11-24T13:34:49.759Z"
   },
   "upcoming-tcg-sets": {
     "knownNames": [
@@ -805,6 +806,6 @@
       "McDonald's Collection 2026",
       "Southern Islands Collection"
     ],
-    "lastCheckAt": "2026-11-23T16:33:21.765Z"
+    "lastCheckAt": "2026-11-24T13:34:49.931Z"
   }
 }
